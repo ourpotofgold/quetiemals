@@ -4,150 +4,267 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quetiemals: The Fight for Eyuforyia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --primary-bg: #0d0d0d;
-            --accent-violet: #8a2be2;
-            --accent-gold: #ffd700;
-            --text-main: #e0e0e0;
-            --card-bg: #1a1a1a;
+            --primary-bg: #050510;
+            --secondary-bg: #0a0a1a;
+            --accent-violet: #9d4edd;
+            --accent-gold: #ffd60a;
+            --accent-cyan: #00f5ff;
+            --text-main: #e8e8f0;
+            --text-dim: #a0a0b8;
+            --card-bg: #0f0f1e;
             --highlight-green: #39ff14;
         }
+
+        @keyframes starfield {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100vh); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { filter: drop-shadow(0 0 20px var(--accent-violet)) brightness(1); }
+            50% { filter: drop-shadow(0 0 40px var(--accent-cyan)) brightness(1.2); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Syne', sans-serif;
             background-color: var(--primary-bg);
             color: var(--text-main);
-            margin: 0;
+            overflow-x: hidden;
+            position: relative;
             line-height: 1.6;
         }
+
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200vh;
+            pointer-events: none;
+            z-index: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent),
+                radial-gradient(1px 1px at 33% 80%, white, transparent),
+                radial-gradient(1px 1px at 75% 25%, white, transparent);
+            background-size: 200% 200%;
+            animation: starfield 120s linear infinite;
+            opacity: 0.4;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.15;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .orb-1 { width: 400px; height: 400px; background: radial-gradient(circle, var(--accent-violet), transparent); top: 10%; left: -5%; }
+        .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-cyan), transparent); top: 50%; right: -10%; }
+        .orb-3 { width: 350px; height: 350px; background: radial-gradient(circle, var(--accent-gold), transparent); bottom: 10%; left: 30%; }
+
         header {
-            background: linear-gradient(135deg, var(--accent-violet), #4b0082);
-            padding: 60px 20px;
+            position: relative;
+            padding: 120px 20px 80px;
             text-align: center;
-            border-bottom: 4px solid var(--accent-gold);
+            overflow: hidden;
+            z-index: 10;
         }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--secondary-bg);
+            border-bottom: 3px solid var(--accent-gold);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+        }
+
         header h1 {
-            font-size: 3.5rem;
-            margin: 0;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-            color: var(--accent-gold);
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--accent-gold), var(--accent-cyan), var(--accent-violet));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 2;
+            animation: glow-pulse 4s ease-in-out infinite;
         }
+
         header p {
-            font-size: 1.2rem;
-            font-style: italic;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            position: relative;
+            z-index: 2;
         }
+
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 60px 20px;
+            position: relative;
+            z-index: 10;
         }
+
         .story-section {
             background-color: var(--card-bg);
-            padding: 40px;
-            border-radius: 15px;
-            border-left: 8px solid var(--accent-violet);
-            margin-bottom: 60px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 60px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 80px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            animation: fadeInUp 1s ease-out;
         }
+
         .story-section h2 {
+            font-family: 'Orbitron', sans-serif;
             color: var(--accent-gold);
-            font-size: 2.5rem;
-            margin-top: 0;
+            margin-bottom: 30px;
         }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--accent-gold);
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
         .character-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 40px;
+            animation: fadeInUp 1s ease-out 0.5s backwards;
         }
+
         .character-card {
             background-color: var(--card-bg);
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #333;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
         }
+
         .character-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.3);
-            border-color: var(--accent-violet);
+            transform: translateY(-15px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+            border-color: var(--accent-cyan);
         }
+
         .character-img {
             width: 100%;
-            height: 280px;
-            background-color: #000;
-            overflow: hidden;
+            height: 320px;
+            background: var(--element-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .character-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+
+        .character-img img { width: 100%; height: 100%; object-fit: cover; }
+
         .character-info {
-            padding: 20px;
+            padding: 30px;
             flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
+
+        .element-tag {
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            width: fit-content;
+        }
+
         .character-name {
+            font-family: 'Orbitron', sans-serif;
             font-size: 1.4rem;
             color: var(--accent-gold);
-            margin: 0 0 10px 0;
-            border-bottom: 1px solid #444;
-            padding-bottom: 5px;
-        }
-        .character-bio {
-            font-size: 0.9rem;
             margin-bottom: 15px;
-            color: #ccc;
-            height: 70px;
-            overflow: hidden;
         }
+
+        .character-bio { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 20px; min-height: 80px; }
+
         .skill-box {
-            background-color: #252525;
-            padding: 10px;
-            border-radius: 8px;
-            border-top: 2px solid var(--highlight-green);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--element-color);
+            margin-top: auto;
         }
-        .skill-name {
-            font-weight: bold;
-            color: var(--highlight-green);
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-        }
-        .skill-desc {
-            font-size: 0.8rem;
-            color: #bbb;
-        }
+
+        .skill-name { color: var(--highlight-green); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; display: block; margin-bottom: 5px;}
+        .skill-desc { font-size: 0.8rem; color: var(--text-dim); }
+
         footer {
             text-align: center;
-            padding: 40px;
-            background-color: #050505;
-            color: #777;
+            padding: 60px 20px;
+            background-color: var(--primary-bg);
+            color: #666;
             font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .element-tag {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-        .fire { background-color: #ff4500; color: #fff; }
-        .ice { background-color: #00bfff; color: #fff; }
-        .earth { background-color: #8b4513; color: #fff; }
-        .nature { background-color: #228b22; color: #fff; }
-        .water { background-color: #1e90ff; color: #fff; }
-        .night { background-color: #4b0082; color: #fff; }
-        .light { background-color: #f0e68c; color: #000; }
-        .tech { background-color: #00ced1; color: #fff; }
-        .air { background-color: #ffffff; color: #000; }
+
+        /* Elements */
+        .fire { --element-color: #ff4500; --element-gradient: radial-gradient(circle, #ff450033, transparent); background-color: #ff4500; color: #fff; }
+        .ice { --element-color: #00bfff; --element-gradient: radial-gradient(circle, #00bfff33, transparent); background-color: #00bfff; color: #fff; }
+        .earth { --element-color: #8b4513; --element-gradient: radial-gradient(circle, #8b451333, transparent); background-color: #8b4513; color: #fff; }
+        .nature { --element-color: #228b22; --element-gradient: radial-gradient(circle, #228b2233, transparent); background-color: #228b22; color: #fff; }
+        .water { --element-color: #1e90ff; --element-gradient: radial-gradient(circle, #1e90ff33, transparent); background-color: #1e90ff; color: #fff; }
+        .night { --element-color: #4b0082; --element-gradient: radial-gradient(circle, #4b008233, transparent); background-color: #4b0082; color: #fff; }
+        .light { --element-color: #ffd700; --element-gradient: radial-gradient(circle, #ffd70033, transparent); background-color: #ffd700; color: #000; }
+        .tech { --element-color: #00ced1; --element-gradient: radial-gradient(circle, #00ced133, transparent); background-color: #00ced1; color: #fff; }
+        .air { --element-color: #ffffff; --element-gradient: radial-gradient(circle, #ffffff33, transparent); background-color: #ffffff; color: #000; }
+
+        @media (max-width: 768px) { .character-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
+
+<div class="starfield"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
 
 <header>
     <h1>QUETIEMALS</h1>
@@ -155,226 +272,341 @@
 </header>
 
 <div class="container">
-    <section class="story-section" id="story">
+    <section class="story-section">
         <h2>The Story of Eyuforyia</h2>
-        <p>
-            The skies of <strong>Eyuforyia</strong> once shimmered with a captivating blend of violet and gold, creating an eternal twilight that made dew on the giant clover leaves sparkle like scattered diamonds. This ancient peace was shattered when the sky was violently torn open by three enormous geometric monolithic shaped vessels.
-        </p>
-        <p>
-            These are not travelers, but <strong>Collectors</strong>. They anchored massive black metal harpoons deep into the planet’s crust, seeping a glowing, neon-green liquid that transformed vibrant blue grass into metallic wires and soft earth into hexagonal plates. This spreading corruption, known as the <strong>Tech-Biome</strong>, aims to "optimize" life into data points and tools for an alien AI.
-        </p>
-        <p>
-            When young <strong>Glacy</strong> was taken to be processed, his brother <strong>Ice Heart</strong>, a wolf of the glaciers, refused to wait for a plan. Alongside <strong>Hotly</strong> the firebird and a growing resistance of Zenith Guardians, he leads a desperate fight to stop the siphons, restore the natural song of the woods, and reclaim their world from total mechanization.
-        </p>
+        <p>The skies of <strong>Eyuforyia</strong> once shimmered with an eternal twilight. This peace was shattered by the <strong>Collectors</strong>, alien invaders siphoning the forest’s "hum" to power their mechanization.</p>
+        <p>Alongside <strong>Ice Heart</strong> and <strong>Hotly</strong>, a growing resistance of Zenith Guardians fights to reclaim their organic world.</p>
     </section>
 
-    <h2 style="font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 30px;">Zenith Guardians: The Apex Final Forms</h2>
+    <h2 class="section-title">Zenith Guardians: The Apex Forms</h2>
     
     <div class="character-grid">
         <div class="character-card">
-            <div class="character-img"><img src="img/wolce-04.png" alt="Zenith Frost-Howl"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #00bfff33, transparent);">
+                <img src="img/wolce-04.png" alt="Zenith Frost-Howl">
+            </div>
             <div class="character-info">
                 <div class="element-tag ice">Ice</div>
                 <h3 class="character-name">Zenith Frost-Howl</h3>
-                <p class="character-bio">A mystical guardian cub carrying the soul of a god-tier wolf. He leads not from ambition, but from a promise to save his brother.</p>
-                <div class="skill-box">
-                    <span class="skill-name">Sovereign Roar: Blue Fenrir</span>
-                    <p class="skill-desc">Summons a spirit projection made of starlight that doubles reach and turns bolts into a map-wide Star-Rain.</p>
+                <p class="character-bio">Ice Heart has fully embraced his divine lineage, manifesting frost-armor that pulses with ancient runic energy.</p>
+                <div class="skill-box" style="--element-color: #00bfff;">
+                    <span class="skill-name">Sovereign Roar</span>
+                    <p class="skill-desc">Summons a spirit projection of blue flame that creates a Star-Rain of damage.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/dragma-04.png" alt="Zenith Magma-Scale"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #ff450033, transparent);">
+                <img src="img/dragma-04.png" alt="Zenith Magma-Scale">
+            </div>
             <div class="character-info">
                 <div class="element-tag fire">Fire</div>
                 <h3 class="character-name">Zenith Magma-Scale</h3>
-                <p class="character-bio">A living volcano in draconic form. This undisputed apex predator of the volcanic wastes is now fire itself.</p>
-                <div class="skill-box">
+                <p class="character-bio">A living volcano in draconic form. The undisputed predator of the volcanic wastes.</p>
+                <div class="skill-box" style="--element-color: #ff4500;">
                     <span class="skill-name">Volcanic Tantrum</span>
-                    <p class="skill-desc">Slam into the ground as a miniature sun, creating a shockwave of fire and reformatting the arena into cracked earth.</p>
+                    <p class="skill-desc">Creates a shockwave of fire and broken rock across the entire arena.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/volt-04.png" alt="Zenith Volt-Titan"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #00ced133, transparent);">
+                <img src="img/volt-04.png" alt="Zenith Volt-Titan">
+            </div>
             <div class="character-info">
                 <div class="element-tag tech">Tech / Electric</div>
                 <h3 class="character-name">Zenith Volt-Titan</h3>
-                <p class="character-bio">A towering warrior of pure electricity whose armor is fused with its core. He acts as the ultimate battery for the cause.</p>
-                <div class="skill-box">
+                <p class="character-bio">A warrior of pure electricity. Acts as the ultimate battery for the resistance.</p>
+                <div class="skill-box" style="--element-color: #00ced1;">
                     <span class="skill-name">Ionic Storm</span>
-                    <p class="skill-desc">Creates a permanent Electric zone on the board that increases the damage of all yellow matches.</p>
+                    <p class="skill-desc">Increases the damage of all energy matches on the board.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/AiryEars_04.png" alt="Zenith Storm-Cloud"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #ffffff33, transparent);">
+                <img src="img/ghosty-puff-04.png" alt="Zenith Storm-Cloud">
+            </div>
             <div class="character-info">
                 <div class="element-tag air">Air / Electric</div>
                 <h3 class="character-name">Zenith Storm-Cloud</h3>
-                <p class="character-bio">The pure avatar of the hurricane. Its oversized ears act as conductors constantly drawing static from the sky.</p>
-                <div class="skill-box">
-                    <span class="skill-name">Category 5</span>
-                    <p class="skill-desc">Summons a persistent map-wide tornado that scrambles enemy positions and reflects all projectiles.</p>
+                <p class="character-bio">Its ears act as lightning rods, drawing in static to power the cause.</p>
+                <div class="skill-box" style="--element-color: #ffffff;">
+                    <span class="skill-name">Cyclonic Burst</span>
+                    <p class="skill-desc">Clears the top row and deals Air damage to all enemies.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/chroom-04.png" alt="Zenith Spore-Bot"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #228b2233, transparent);">
+                <img src="img/chroom-04.png" alt="Zenith Spore-Bot">
+            </div>
             <div class="character-info">
                 <div class="element-tag nature">Nature</div>
                 <h3 class="character-name">Zenith Spore-Bot</h3>
-                <p class="character-bio">The peak of fungal growth. It treats the world as its toxic fairy ring, where reality itself warps to its command.</p>
-                <div class="skill-box">
+                <p class="character-bio">The absolute peak of fungal growth. It treats the world as its toxic fairy ring.</p>
+                <div class="skill-box" style="--element-color: #228b22;">
                     <span class="skill-name">Fungal Overgrowth</span>
-                    <p class="skill-desc">Erupts massive rings of exploding mushrooms that cover the field in hallucinogenic neon spores.</p>
+                    <p class="skill-desc">Erupts exploding mushrooms that cover the field in neon spores.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/darkhum-04.png" alt="Zenith Shadow-Hum"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #4b008233, transparent);">
+                <img src="img/darkhum-04.png" alt="Zenith Shadow-Hum">
+            </div>
             <div class="character-info">
                 <div class="element-tag night">Night</div>
                 <h3 class="character-name">Zenith Shadow-Hum</h3>
-                <p class="character-bio">Moves as a flickering glitch in reality. An avian blur of dark light and purple lightning that paralyzes with fear.</p>
-                <div class="skill-box">
+                <p class="character-bio">A flicker in reality. An avian blur of dark light and purple lightning.</p>
+                <div class="skill-box" style="--element-color: #4b0082;">
                     <span class="skill-name">Thunder-Shadow Storm</span>
-                    <p class="skill-desc">Summons a chaotic storm cloud that rains down random, paralyzing lightning bolts across the enemy team.</p>
+                    <p class="skill-desc">Rains down paralyzing lightning across the entire enemy team.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/armadilla-04.png" alt="Zenith Plate-Crawler"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #8b451333, transparent);">
+                <img src="img/armadilla-04.png" alt="Zenith Plate-Crawler">
+            </div>
             <div class="character-info">
                 <div class="element-tag earth">Earth</div>
                 <h3 class="character-name">Zenith Plate-Crawler</h3>
-                <p class="character-bio">An unyielding wall of defense. Its geometric crystalline shell refracts physical force like a living mountain.</p>
-                <div class="skill-box">
+                <p class="character-bio">Its shell refracts physical force like a living mountain.</p>
+                <div class="skill-box" style="--element-color: #8b4513;">
                     <span class="skill-name">Continental Roll</span>
-                    <p class="skill-desc">Clears an entire row of gems and deals massive damage based on Earth tiles consumed.</p>
+                    <p class="skill-desc">Clears a row and deals damage based on Earth tiles consumed.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/Snone_04.png" alt="Zenith Tri-Headed Quake"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #8b451333, transparent);">
+                <img src="img/snone-04.png" alt="Zenith Tri-Headed Quake">
+            </div>
             <div class="character-info">
                 <div class="element-tag earth">Earth / Fire</div>
                 <h3 class="character-name">Zenith Tri-Headed Quake</h3>
-                <p class="character-bio">An unstoppable force of tectonic destruction. Its three heads coordinate independently to shape the earth.</p>
-                <div class="skill-box">
+                <p class="character-bio">Its three heads coordinate independently to shape the earth.</p>
+                <div class="skill-box" style="--element-color: #8b4513;">
                     <span class="skill-name">Continental Divide</span>
-                    <p class="skill-desc">Physically splits the board, swallowing the weakest enemy into the planet's molten mantle.</p>
+                    <p class="skill-desc">Splits the board, swallowing the weakest enemy into the mantle.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/cygone.png" alt="Zenith Data-Drake"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #00ced133, transparent);">
+                <img src="img/cygone.png" alt="Zenith Data-Drake">
+            </div>
             <div class="character-info">
                 <div class="element-tag tech">Tech</div>
                 <h3 class="character-name">Zenith Data-Drake</h3>
-                <p class="character-bio">The ultimate digital predator. A majestic server-dragon existing as ethereal light and wireframe geometry.</p>
-                <div class="skill-box">
+                <p class="character-bio">A majestic server-dragon existing as ethereal light and wireframe geometry.</p>
+                <div class="skill-box" style="--element-color: #00ced1;">
                     <span class="skill-name">Gigabyte Ray</span>
-                    <p class="skill-desc">Completely reformats the arena, converting terrain into nodes and silencing enemy special abilities.</p>
+                    <p class="skill-desc">Converts terrain into nodes and silences enemy special abilities.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/Weaver_04.png" alt="Zenith Tidal-Assassin"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #1e90ff33, transparent);">
+                <img src="img/sealuny-04.png" alt="Zenith Tidal-Assassin">
+            </div>
             <div class="character-info">
                 <div class="element-tag water">Water</div>
                 <h3 class="character-name">Zenith Tidal-Assassin</h3>
-                <p class="character-bio">The phantom blade of the abyss. Its pressurized water scythes can cut through reinforced tech-alloy instantly.</p>
-                <div class="skill-box">
-                    <span class="skill-name">Blood-Tide Execution</span>
-                    <p class="skill-desc">A surgical strike that neutralizes enemies below 20% HP and heals the allied team for the damage dealt.</p>
+                <p class="character-bio">The phantom blade. Pressurized water scythes that cut through tech-alloy.</p>
+                <div class="skill-box" style="--element-color: #1e90ff;">
+                    <span class="skill-name">Execution Strike</span>
+                    <p class="skill-desc">Neutralizes enemies below 20% HP and heals the allied team.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/welly-04.png" alt="Zenith Mist-Dancer"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #1e90ff33, transparent);">
+                <img src="img/welly-04.png" alt="Zenith Mist-Dancer">
+            </div>
             <div class="character-info">
                 <div class="element-tag water">Water</div>
                 <h3 class="character-name">Zenith Mist-Dancer</h3>
-                <p class="character-bio">An avatar of the cleansing tide. It uses its dual nature to adapt to any threat the alien invaders pose.</p>
-                <div class="skill-box">
-                    <span class="skill-name">Tears of the Ocean</span>
-                    <p class="skill-desc">A map-wide deluge that resurrects fallen allies and washes away all mechanical corruption.</p>
+                <p class="character-bio">Avatar of the cleansing tide. Its fluid form is immune to physical damage.</p>
+                <div class="skill-box" style="--element-color: #1e90ff;">
+                    <span class="skill-name">Monsoon Blessing</span>
+                    <p class="skill-desc">Heals allies continuously while washing away all enemy buffs.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/angeal.png" alt="Zenith Solar-Paladin"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #00bfff33, transparent);">
+                <img src="img/angeal.png" alt="Zenith Solar-Paladin">
+            </div>
             <div class="character-info">
-                <div class="element-tag light">Light</div>
+                <div class="element-tag ice">Ice</div>
                 <h3 class="character-name">Zenith Solar-Paladin</h3>
-                <p class="character-bio">A seraph of absolute radiance. Clad in ornate blue armor, it leads the charge with cold, purifying fire.</p>
-                <div class="skill-box">
-                    <span class="skill-name">Sky-God’s Ascension</span>
-                    <p class="skill-desc">Dives as a thunderbolt to create a pillar of blue spirit-fire that cleanses allies and burns the wicked.</p>
+                <p class="character-bio">A seraph of absolute radiance. Leads the charge with purifying spirit-fire.</p>
+                <div class="skill-box" style="--element-color: #ffd700;">
+                    <span class="skill-name">Sky-God's Ascension</span>
+                    <p class="skill-desc">Cleanses debuffs and burns the corrupted with divine wrath.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/Strogger_04.png" alt="Zenith Crystal-Brawler"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #8b451333, transparent);">
+                <img src="img/strogger-04.png" alt="Zenith Crystal-Brawler">
+            </div>
             <div class="character-info">
                 <div class="element-tag earth">Earth / Nature</div>
                 <h3 class="character-name">Zenith Crystal-Brawler</h3>
-                <p class="character-bio">A living mountain of flawless amber. Its runes reach peak resonance, locking down foes with rock pillars.</p>
-                <div class="skill-box">
+                <p class="character-bio">Coated in amber crystals and glowing blue runes that command earthen magic.</p>
+                <div class="skill-box" style="--element-color: #8b4513;">
                     <span class="skill-name">World-Breaker Slam</span>
-                    <p class="skill-desc">Fractures the field to trap enemies in amber prisms while regenerating the health of Earth/Nature allies.</p>
+                    <p class="skill-desc">Traps enemies in rock spikes while regenerating Earth allies.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/RamaLama_04.png" alt="Zenith Solar-Aries"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #ffd70033, transparent);">
+                <img src="img/ramalama-04.png" alt="Zenith Solar-Aries">
+            </div>
             <div class="character-info">
                 <div class="element-tag light">Light</div>
                 <h3 class="character-name">Zenith Solar-Aries</h3>
-                <p class="character-bio">An immovable celestial bastion of pure hard-light. Its fleece burns with the heat of a localized star.</p>
-                <div class="skill-box">
+                <p class="character-bio">A celestial bastion of hard-light. Its fleece burns with the heat of a star.</p>
+                <div class="skill-box" style="--element-color: #ffd700;">
                     <span class="skill-name">Aegis of the Dawn</span>
-                    <p class="skill-desc">Grants temporary team invulnerability and permanently blinds any enemy who dares strike its shield.</p>
+                    <p class="skill-desc">Grants invulnerability and reflects 200% of physical damage.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/Aurelius the Bloom-King_04.png" alt="Zenith Bloom-King"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #228b2233, transparent);">
+                <img src="img/aurelius-the-bloom-king-04.png" alt="Zenith Bloom-King">
+            </div>
             <div class="character-info">
                 <div class="element-tag nature">Nature / Earth</div>
                 <h3 class="character-name">Zenith Bloom-King</h3>
-                <p class="character-bio">The ultimate sovereign of Eyuforyia's natural forces, commanding the vast growth of the Wild Woods.</p>
-                <div class="skill-box">
-                    <span class="skill-name">Grave-Soil Eruption</span>
-                    <p class="skill-desc">Causes rune-engraved ancient tree trunks to burst upward, entangling and crushing the Tech-Biome.</p>
+                <p class="character-bio">Ultimate sovereign of Eyuforyia's natural forces, commanding the core.</p>
+                <div class="skill-box" style="--element-color: #228b22;">
+                    <span class="skill-name">Gaea’s Blessing</span>
+                    <p class="skill-desc">Restores massive health and erupts ancient roots to clear toxins.</p>
                 </div>
             </div>
         </div>
 
         <div class="character-card">
-            <div class="character-img"><img src="img/Dhox_04.png" alt="Zenith Sanguine Warden"></div>
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #4b008233, transparent);">
+                <img src="img/dhox-04.png" alt="Zenith Sanguine Warden">
+            </div>
             <div class="character-info">
                 <div class="element-tag night">Night</div>
                 <h3 class="character-name">Zenith Sanguine Warden</h3>
-                <p class="character-bio">A vampiric guardian equipped with bat-wings that drain life energy from foes to stitch the pack's wounds.</p>
-                <div class="skill-box">
+                <p class="character-bio">A vampiric guardian that drains life energy to stitch pack wounds.</p>
+                <div class="skill-box" style="--element-color: #4b0082;">
                     <span class="skill-name">Blood Moon Siphon</span>
-                    <p class="skill-desc">Rips life energy from all enemies under a crimson moon, completely healing the allied resistance.</p>
+                    <p class="skill-desc">Rips energy from all enemies to completely heal the pack.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="character-card">
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #4b008233, transparent);">
+                <img src="img/dwuid-04.png" alt="Zenith Gloom-Sage">
+            </div>
+            <div class="character-info">
+                <div class="element-tag night">Night / Nature</div>
+                <h3 class="character-name">Zenith Gloom-Sage</h3>
+                <p class="character-bio">Avatar of natural decay. Becomes a storm of necrotic energy.</p>
+                <div class="skill-box" style="--element-color: #4b0082;">
+                    <span class="skill-name">Eradication Bloom</span>
+                    <p class="skill-desc">Permanently reduces the max HP of the entire enemy team.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="character-card">
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #ff450033, transparent);">
+                <img src="img/wolire-04.png" alt="Zenith Solar-Fang">
+            </div>
+            <div class="character-info">
+                <div class="element-tag fire">Fire</div>
+                <h3 class="character-name">Zenith Solar-Fang</h3>
+                <p class="character-bio">Celtic sigils burn with the intensity of a star. Tail is pure solar plasma.</p>
+                <div class="skill-box" style="--element-color: #ff4500;">
+                    <span class="skill-name">Radiant Pounce</span>
+                    <p class="skill-desc">Descends like a meteor, creating 'Holy Ground' that buffs allies.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="character-card">
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #4b008233, transparent);">
+                <img src="img/nyghder-04.png" alt="Zenith Shadow-Weaver">
+            </div>
+            <div class="character-info">
+                <div class="element-tag night">Night</div>
+                <h3 class="character-name">Zenith Shadow-Weaver</h3>
+                <p class="character-bio">An architect of the battlefield that traps dimensions with void silk.</p>
+                <div class="skill-box" style="--element-color: #4b0082;">
+                    <span class="skill-name">Abyssal Snare</span>
+                    <p class="skill-desc">Immobilizes enemies and reduces their resistances to zero.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="character-card">
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #00bfff33, transparent);">
+                <img src="img/frostsnout-04.png" alt="Zenith Frost-Tusk">
+            </div>
+            <div class="character-info">
+                <div class="element-tag ice">Ice</div>
+                <h3 class="character-name">Zenith Frost-Tusk</h3>
+                <p class="character-bio">Massive ice-spike tusks infused with sub-zero energy.</p>
+                <div class="skill-box" style="--element-color: #00bfff;">
+                    <span class="skill-name">Shatter-Lance</span>
+                    <p class="skill-desc">High single-target damage with a chance to freeze neighbors.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="character-card">
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #8b451333, transparent);">
+                <img src="img/fox-golem-04.png" alt="Zenith Geo-Sovereign">
+            </div>
+            <div class="character-info">
+                <div class="element-tag earth">Earth</div>
+                <h3 class="character-name">Zenith Geo-Sovereign</h3>
+                <p class="character-bio">An earth-fox with total control over seismic activity.</p>
+                <div class="skill-box" style="--element-color: #8b4513;">
+                    <span class="skill-name">Quake-Step</span>
+                    <p class="skill-desc">Shuffles the board to create massive chain reactions.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="character-card">
+            <div class="character-img" style="--element-gradient: radial-gradient(circle, #228b2233, transparent);">
+                <img src="img/night-trees-04.png" alt="Zenith Dread-Grove">
+            </div>
+            <div class="character-info">
+                <div class="element-tag nature">Night / Nature</div>
+                <h3 class="character-name">Zenith Dread-Grove</h3>
+                <p class="character-bio">Twin judges that hunt those who bring tech into green spaces.</p>
+                <div class="skill-box" style="--element-color: #228b22;">
+                    <span class="skill-name">Floral Decay</span>
+                    <p class="skill-desc">Turns all matching Nature tiles into poisonous Night tiles.</p>
                 </div>
             </div>
         </div>
@@ -383,7 +615,7 @@
 </div>
 
 <footer>
-    <p>&copy; 2026 Quetiemals Development Team. All character designs and lore are property of Teq Vault LLC.</p>
+    <p>&copy; 2026 Quetiemals Development Team. All designs property of Teq Vault LLC.</p>
 </footer>
 
 </body>
