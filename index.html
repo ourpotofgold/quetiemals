@@ -1,622 +1,1611 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quetiemals: The Fight for Eyuforyia</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <title>Eyuforyia: Zenith Guardian Codex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Enter Eyuforyia, an organic world under siege by the Collectors. Command Zenith Guardians and reclaim the forest's hum."
+  />
 
-        :root {
-            --primary-bg: #050510;
-            --secondary-bg: #0a0a1a;
-            --accent-violet: #9d4edd;
-            --accent-gold: #ffd60a;
-            --accent-cyan: #00f5ff;
-            --text-main: #e8e8f0;
-            --text-dim: #a0a0b8;
-            --card-bg: #0f0f1e;
-            --highlight-green: #39ff14;
-        }
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
 
-        @keyframes starfield {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-100vh); }
-        }
+  <style>
+    :root {
+      --bg: #030712;
+      --bg-alt: #050816;
+      --accent: #22d3ee;
+      --accent-soft: rgba(34, 211, 238, 0.14);
+      --accent-strong: rgba(34, 211, 238, 0.7);
+      --accent-secondary: #a855f7;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --card: rgba(15, 23, 42, 0.9);
+      --border-subtle: rgba(148, 163, 184, 0.2);
+      --danger: #f97316;
+      --good: #4ade80;
+    }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        @keyframes glow-pulse {
-            0%, 100% { filter: drop-shadow(0 0 20px var(--accent-violet)) brightness(1); }
-            50% { filter: drop-shadow(0 0 40px var(--accent-cyan)) brightness(1.2); }
-        }
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      scroll-behavior: smooth;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 55%, #000 100%);
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-        body {
-            font-family: 'Syne', sans-serif;
-            background-color: var(--primary-bg);
-            color: var(--text-main);
-            overflow-x: hidden;
-            position: relative;
-            line-height: 1.6;
-        }
+    .page-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 4rem;
+    }
 
-        .starfield {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 200vh;
-            pointer-events: none;
-            z-index: 0;
-            background-image: 
-                radial-gradient(2px 2px at 20% 30%, white, transparent),
-                radial-gradient(2px 2px at 60% 70%, white, transparent),
-                radial-gradient(1px 1px at 50% 50%, white, transparent),
-                radial-gradient(1px 1px at 80% 10%, white, transparent),
-                radial-gradient(2px 2px at 90% 60%, white, transparent),
-                radial-gradient(1px 1px at 33% 80%, white, transparent),
-                radial-gradient(1px 1px at 75% 25%, white, transparent);
-            background-size: 200% 200%;
-            animation: starfield 120s linear infinite;
-            opacity: 0.4;
-        }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0 1.5rem;
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(
+        to bottom,
+        rgba(15, 23, 42, 0.92),
+        rgba(15, 23, 42, 0.7),
+        transparent
+      );
+      z-index: 30;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
 
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.15;
-            animation: float 8s ease-in-out infinite;
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
 
-        .orb-1 { width: 400px; height: 400px; background: radial-gradient(circle, var(--accent-violet), transparent); top: 10%; left: -5%; }
-        .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-cyan), transparent); top: 50%; right: -10%; }
-        .orb-3 { width: 350px; height: 350px; background: radial-gradient(circle, var(--accent-gold), transparent); bottom: 10%; left: 30%; }
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: conic-gradient(
+        from 210deg,
+        #22d3ee,
+        #a855f7,
+        #f97316,
+        #22d3ee
+      );
+      position: relative;
+      box-shadow:
+        0 0 25px rgba(34, 211, 238, 0.75),
+        0 0 40px rgba(168, 85, 247, 0.45);
+      overflow: hidden;
+    }
 
-        header {
-            position: relative;
-            padding: 120px 20px 80px;
-            text-align: center;
-            overflow: hidden;
-            z-index: 10;
-        }
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 30%, #0f172a 0, #020617 40%, #000 100%);
+    }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--secondary-bg);
-            border-bottom: 3px solid var(--accent-gold);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-        }
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
 
-        header h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(3rem, 10vw, 6rem);
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--accent-gold), var(--accent-cyan), var(--accent-violet));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            position: relative;
-            z-index: 2;
-            animation: glow-pulse 4s ease-in-out infinite;
-        }
+    .brand-text span:first-child {
+      font-family: "Orbitron", system-ui, sans-serif;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
 
-        header p {
-            font-size: clamp(1.1rem, 3vw, 1.5rem);
-            font-weight: 600;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--accent-gold);
-            position: relative;
-            z-index: 2;
-        }
+    .brand-text span:last-child {
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
 
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 60px 20px;
-            position: relative;
-            z-index: 10;
-        }
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-family: "Orbitron", system-ui, sans-serif;
+    }
 
-        .story-section {
-            background-color: var(--card-bg);
-            padding: 60px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 80px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-            animation: fadeInUp 1s ease-out;
-        }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 0.25rem;
+      transition: color 160ms ease;
+    }
 
-        .story-section h2 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--accent-gold);
-            margin-bottom: 30px;
-        }
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--accent), var(--accent-secondary));
+      transform: translateX(-50%);
+      transition: width 180ms ease;
+    }
 
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2rem, 5vw, 3rem);
-            color: var(--accent-gold);
-            text-align: center;
-            margin-bottom: 60px;
-        }
+    nav a:hover {
+      color: var(--accent);
+    }
 
-        .character-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 40px;
-            animation: fadeInUp 1s ease-out 0.5s backwards;
-        }
+    nav a:hover::after {
+      width: 100%;
+    }
 
-        .character-card {
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-        }
+    .cta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(96, 165, 250, 0.4);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.15), transparent),
+        rgba(15, 23, 42, 0.95);
+      color: #e5e7eb;
+      cursor: pointer;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-family: "Orbitron", system-ui, sans-serif;
+      box-shadow: 0 0 18px rgba(8, 47, 73, 0.65);
+      transition:
+        transform 120ms ease,
+        box-shadow 120ms ease,
+        border-color 160ms ease,
+        background 160ms ease;
+    }
 
-        .character-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
-            border-color: var(--accent-cyan);
-        }
+    .cta-pill span {
+      font-size: 0.7rem;
+      color: var(--accent);
+    }
 
-        .character-img {
-            width: 100%;
-            height: 320px;
-            background: var(--element-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .cta-pill:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 24px rgba(8, 47, 73, 0.9),
+        0 0 40px rgba(22, 163, 74, 0.4);
+      border-color: rgba(74, 222, 128, 0.66);
+      background: radial-gradient(circle at top left, rgba(74, 222, 128, 0.2), transparent),
+        rgba(15, 23, 42, 0.98);
+    }
 
-        .character-img img { width: 100%; height: 100%; object-fit: cover; }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      gap: 2.75rem;
+      align-items: center;
+      padding: 2.5rem 0 3rem;
+    }
 
-        .character-info {
-            padding: 30px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      font-family: "Orbitron", system-ui, sans-serif;
+      margin-bottom: 0.9rem;
+    }
 
-        .element-tag {
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            width: fit-content;
-        }
+    .hero-kicker-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.9);
+    }
 
-        .character-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
-            color: var(--accent-gold);
-            margin-bottom: 15px;
-        }
+    .hero-title {
+      font-family: "Orbitron", system-ui, sans-serif;
+      font-size: clamp(2.35rem, 3.4vw, 2.9rem);
+      line-height: 1.08;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 1rem;
+    }
 
-        .character-bio { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 20px; min-height: 80px; }
+    .hero-title span {
+      display: block;
+    }
 
-        .skill-box {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 20px;
-            border-radius: 12px;
-            border-left: 4px solid var(--element-color);
-            margin-top: auto;
-        }
+    .hero-title-accent {
+      background: linear-gradient(to right, #22d3ee, #a855f7, #f97316);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
 
-        .skill-name { color: var(--highlight-green); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; display: block; margin-bottom: 5px;}
-        .skill-desc { font-size: 0.8rem; color: var(--text-dim); }
+    .hero-sub {
+      max-width: 34rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1.6rem;
+    }
 
-        footer {
-            text-align: center;
-            padding: 60px 20px;
-            background-color: var(--primary-bg);
-            color: #666;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
+    .hero-sub strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
 
-        /* Elements */
-        .fire { --element-color: #ff4500; --element-gradient: radial-gradient(circle, #ff450033, transparent); background-color: #ff4500; color: #fff; }
-        .ice { --element-color: #00bfff; --element-gradient: radial-gradient(circle, #00bfff33, transparent); background-color: #00bfff; color: #fff; }
-        .earth { --element-color: #8b4513; --element-gradient: radial-gradient(circle, #8b451333, transparent); background-color: #8b4513; color: #fff; }
-        .nature { --element-color: #228b22; --element-gradient: radial-gradient(circle, #228b2233, transparent); background-color: #228b22; color: #fff; }
-        .water { --element-color: #1e90ff; --element-gradient: radial-gradient(circle, #1e90ff33, transparent); background-color: #1e90ff; color: #fff; }
-        .night { --element-color: #4b0082; --element-gradient: radial-gradient(circle, #4b008233, transparent); background-color: #4b0082; color: #fff; }
-        .light { --element-color: #ffd700; --element-gradient: radial-gradient(circle, #ffd70033, transparent); background-color: #ffd700; color: #000; }
-        .tech { --element-color: #00ced1; --element-gradient: radial-gradient(circle, #00ced133, transparent); background-color: #00ced1; color: #fff; }
-        .air { --element-color: #ffffff; --element-gradient: radial-gradient(circle, #ffffff33, transparent); background-color: #ffffff; color: #000; }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
 
-        @media (max-width: 768px) { .character-grid { grid-template-columns: 1fr; } }
-    </style>
+    .btn-primary,
+    .btn-ghost {
+      border-radius: 999px;
+      padding: 0.85rem 1.3rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: "Orbitron", system-ui, sans-serif;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      transition:
+        transform 120ms ease,
+        box-shadow 120ms ease,
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease;
+    }
+
+    .btn-primary {
+      background: radial-gradient(circle at top left, #22d3ee, #a855f7);
+      color: #0b1120;
+      box-shadow:
+        0 0 25px rgba(34, 211, 238, 0.9),
+        0 0 45px rgba(168, 85, 247, 0.7);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 32px rgba(56, 189, 248, 0.9),
+        0 0 55px rgba(168, 85, 247, 0.8);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: rgba(148, 163, 184, 0.4);
+      color: var(--muted);
+    }
+
+    .btn-ghost:hover {
+      transform: translateY(-1px);
+      color: #e5e7eb;
+      border-color: rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    .hero-footnote {
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .hero-footnote span {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 40% 40%, #22c55e, #15803d);
+      box-shadow: 0 0 14px rgba(34, 197, 94, 0.9);
+    }
+
+    .hero-right {
+      position: relative;
+      min-height: 260px;
+    }
+
+    .hero-orbit {
+      position: relative;
+      width: 100%;
+      height: 260px;
+      border-radius: 999px;
+      border: 1px dashed rgba(148, 163, 184, 0.32);
+      background: radial-gradient(circle at center, rgba(34, 211, 238, 0.05), transparent);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      isolation: isolate;
+    }
+
+    .hero-orbit::before {
+      content: "";
+      position: absolute;
+      inset: 18%;
+      border-radius: inherit;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      opacity: 0.4;
+    }
+
+    .hero-orbit-core {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #facc15, #f97316, #b91c1c);
+      box-shadow:
+        0 0 35px rgba(249, 115, 22, 0.95),
+        0 0 65px rgba(234, 88, 12, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0b1120;
+      font-family: "Orbitron", system-ui, sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      text-align: center;
+    }
+
+    .hero-orbit-core span {
+      padding: 0 1.1rem;
+    }
+
+    .hero-orbit-ring {
+      position: absolute;
+      inset: 12%;
+      border-radius: 999px;
+      border: 1px solid rgba(129, 140, 248, 0.5);
+      box-shadow:
+        0 0 18px rgba(129, 140, 248, 0.6),
+        0 0 28px rgba(37, 99, 235, 0.45);
+      mix-blend-mode: screen;
+    }
+
+    .hero-chip {
+      position: absolute;
+      min-width: 140px;
+      padding: 0.6rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.45rem;
+      color: #e5e7eb;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 0 18px rgba(15, 23, 42, 0.95);
+    }
+
+    .hero-chip-label {
+      text-transform: uppercase;
+      font-family: "Orbitron", system-ui, sans-serif;
+      letter-spacing: 0.16em;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .hero-chip-pill {
+      border-radius: 999px;
+      padding: 0.25rem 0.55rem;
+      font-size: 0.7rem;
+      background: rgba(22, 163, 74, 0.12);
+      color: var(--good);
+      border: 1px solid rgba(34, 197, 94, 0.5);
+    }
+
+    .chip-top { top: 12%; left: 8%; }
+    .chip-right { top: 46%; right: 0; }
+    .chip-bottom { bottom: 10%; left: 12%; }
+
+    section {
+      margin-top: 2.75rem;
+    }
+
+    .section-label {
+      font-family: "Orbitron", system-ui, sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: "Orbitron", system-ui, sans-serif;
+    }
+
+    .section-subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      max-width: 28rem;
+      line-height: 1.5;
+    }
+
+    .lore-block {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: 1.75rem;
+      background: linear-gradient(
+          to right,
+          rgba(15, 23, 42, 0.96),
+          rgba(30, 64, 175, 0.75),
+          rgba(15, 23, 42, 0.94)
+        ),
+        url("https://images.pexels.com/photos/733475/pexels-photo-733475.jpeg?auto=compress&cs=tinysrgb&w=1600")
+          center/cover no-repeat;
+      border-radius: 1.5rem;
+      padding: 1.6rem 1.6rem 1.8rem;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lore-block::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top left, rgba(34, 211, 238, 0.2), transparent 60%);
+      opacity: 0.7;
+      mix-blend-mode: screen;
+    }
+
+    .lore-text {
+      position: relative;
+      z-index: 1;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: #e5e7eb;
+    }
+
+    .lore-text p + p {
+      margin-top: 0.85rem;
+    }
+
+    .lore-highlight {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      font-family: "Orbitron", system-ui, sans-serif;
+      margin-bottom: 0.6rem;
+    }
+
+    .lore-keywords {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    .lore-tag {
+      padding: 0.6rem 0.7rem;
+      border-radius: 0.9rem;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      backdrop-filter: blur(12px);
+    }
+
+    .lore-tag-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-secondary);
+      margin-bottom: 0.2rem;
+      font-family: "Orbitron", system-ui, sans-serif;
+    }
+
+    .lore-tag p {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: linear-gradient(
+        145deg,
+        rgba(15, 23, 42, 0.95),
+        rgba(15, 23, 42, 0.98),
+        rgba(8, 47, 73, 0.9)
+      );
+      border-radius: 1.1rem;
+      padding: 1rem 1rem 1.05rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow:
+        0 12px 35px rgba(15, 23, 42, 0.95),
+        0 0 22px rgba(15, 23, 42, 0.95);
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .card-label-pill {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-family: "Orbitron", system-ui, sans-serif;
+      color: var(--muted);
+    }
+
+    .card-affinity {
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-family: "Orbitron", system-ui, sans-serif;
+      border: 1px solid rgba(148, 163, 184, 0.75);
+    }
+
+    .card-affinity.fire {
+      border-color: rgba(248, 113, 113, 0.9);
+      color: #fecaca;
+      background: rgba(127, 29, 29, 0.7);
+    }
+
+    .card-affinity.ice {
+      border-color: rgba(56, 189, 248, 0.9);
+      color: #e0f2fe;
+      background: rgba(8, 47, 73, 0.7);
+    }
+
+    .card-affinity.nature {
+      border-color: rgba(74, 222, 128, 0.9);
+      color: #bbf7d0;
+      background: rgba(4, 47, 46, 0.8);
+    }
+
+    .card-affinity.storm {
+      border-color: rgba(129, 140, 248, 0.9);
+      color: #e0e7ff;
+      background: rgba(30, 64, 175, 0.8);
+    }
+
+    .card-affinity.void {
+      border-color: rgba(168, 85, 247, 0.9);
+      color: #f5d0fe;
+      background: rgba(88, 28, 135, 0.85);
+    }
+
+    .card-affinity.light {
+      border-color: rgba(250, 250, 250, 0.8);
+      color: #fefce8;
+      background: rgba(113, 63, 18, 0.88);
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .card-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .card-meta {
+      margin-top: 0.4rem;
+      padding-top: 0.4rem;
+      border-top: 1px dashed rgba(148, 163, 184, 0.45);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .card-meta strong {
+      font-weight: 500;
+      color: #e5e7eb;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.25rem;
+    }
+
+    .pill {
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .feature-row {
+      background: var(--card);
+      border-radius: 1.1rem;
+      border: 1px solid var(--border-subtle);
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .feature-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .feature-body {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .feature-tag {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-family: "Orbitron", system-ui, sans-serif;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .statline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.35rem;
+      font-size: 0.75rem;
+    }
+
+    .statline span {
+      padding: 0.16rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: var(--muted);
+    }
+
+    .statline span strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    footer {
+      padding-top: 2rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(31, 41, 55, 0.9);
+      margin-top: auto;
+    }
+
+    footer .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    footer a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+    }
+
+    .hover-rise {
+      transition:
+        transform 140ms ease,
+        box-shadow 140ms ease,
+        border-color 160ms ease;
+    }
+
+    .hover-rise:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 20px 40px rgba(15, 23, 42, 0.95),
+        0 0 24px rgba(34, 211, 238, 0.18);
+      border-color: rgba(148, 163, 184, 0.75);
+    }
+
+    .character-img {
+      width: 100%;
+      height: 260px;
+      background: var(--element-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.9rem;
+      overflow: hidden;
+      margin-bottom: 0.7rem;
+    }
+
+    .character-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 900px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-right {
+        order: -1;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .lore-block {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      nav {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 1.5rem;
+      }
+
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .feature-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .lore-block {
+        padding: 1.2rem;
+      }
+
+      .page-shell {
+        padding-inline: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="page-shell">
+    <header>
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-text">
+          <span>Eyuforyia</span>
+          <span>Zenith Guardian Codex</span>
+        </div>
+      </div>
 
-<div class="starfield"></div>
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="orb orb-3"></div>
+      <nav>
+        <a href="#lore">Lore</a>
+        <a href="#guardians">Guardians</a>
+        <a href="#abilities">Abilities</a>
+        <a href="#boardplay">Boardplay</a>
+      </nav>
 
-<header>
-    <h1>QUETIEMALS</h1>
-    <p>The Fight for Eyuforyia</p>
-</header>
+      <button class="cta-pill">
+        <span>Prototype</span>
+        Request Playtest Access
+      </button>
+    </header>
 
-<div class="container">
-    <section class="story-section">
-        <h2>The Story of Eyuforyia</h2>
-        <p>The skies of <strong>Eyuforyia</strong> once shimmered with an eternal twilight. This peace was shattered by the <strong>Collectors</strong>, alien invaders siphoning the forest’s "hum" to power their mechanization.</p>
-        <p>Alongside <strong>Ice Heart</strong> and <strong>Hotly</strong>, a growing resistance of Zenith Guardians fights to reclaim their organic world.</p>
-    </section>
+    <main>
+      <!-- Hero -->
+      <section class="hero" id="top">
+        <div>
+          <div class="hero-kicker">
+            <span class="hero-kicker-dot"></span>
+            Organic World vs Machine Harvest
+          </div>
+          <h1 class="hero-title">
+            <span>The Forest’s</span>
+            <span class="hero-title-accent">Last Hum</span>
+          </h1>
+          <p class="hero-sub">
+            Eyuforyia was once an eternal twilight canopy where the forest’s <strong>hum</strong> sang through every leaf and root. [file:1]
+            The Collectors arrived, siphoning that life-song to fuel their cold mechanization. [file:1]
+          </p>
 
-    <h2 class="section-title">Zenith Guardians: The Apex Forms</h2>
-    
-    <div class="character-grid">
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #00bfff33, transparent);">
-                <img src="img/wolce-04.png" alt="Zenith Frost-Howl">
-            </div>
-            <div class="character-info">
-                <div class="element-tag ice">Ice</div>
-                <h3 class="character-name">Zenith Frost-Howl</h3>
-                <p class="character-bio">Ice Heart has fully embraced his divine lineage, manifesting frost-armor that pulses with ancient runic energy.</p>
-                <div class="skill-box" style="--element-color: #00bfff;">
-                    <span class="skill-name">Sovereign Roar</span>
-                    <p class="skill-desc">Summons a spirit projection of blue flame that creates a Star-Rain of damage.</p>
-                </div>
-            </div>
+          <p class="hero-sub">
+            You command <strong>Zenith Guardians</strong>—living avatars of ice, flame, storm and rot—through tactical match-3 boardplay and ultimate abilities that reshape the battlefield in real time. [file:1]
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn-primary">
+              Begin the Resistance
+              <span>⮞</span>
+            </button>
+            <button class="btn-ghost">
+              View Guardian Codex
+            </button>
+          </div>
+
+          <div class="hero-footnote">
+            <span></span>
+            Live design document · Match-3 RPG · Boss-focused combat loop
+          </div>
         </div>
 
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #ff450033, transparent);">
-                <img src="img/dragma-04.png" alt="Zenith Magma-Scale">
+        <div class="hero-right">
+          <div class="hero-orbit hover-rise">
+            <div class="hero-orbit-ring"></div>
+            <div class="hero-orbit-core">
+              <span>Eyuforyia Core</span>
             </div>
-            <div class="character-info">
-                <div class="element-tag fire">Fire</div>
-                <h3 class="character-name">Zenith Magma-Scale</h3>
-                <p class="character-bio">A living volcano in draconic form. The undisputed predator of the volcanic wastes.</p>
-                <div class="skill-box" style="--element-color: #ff4500;">
-                    <span class="skill-name">Volcanic Tantrum</span>
-                    <p class="skill-desc">Creates a shockwave of fire and broken rock across the entire arena.</p>
-                </div>
+
+            <div class="hero-chip chip-top">
+              <div>
+                <div class="hero-chip-label">Primary Threat</div>
+                <div>Collectors siphon the forest’s hum.</div>
+              </div>
+              <div class="hero-chip-pill">+ Corruption</div>
             </div>
+
+            <div class="hero-chip chip-right">
+              <div>
+                <div class="hero-chip-label">Zenith Guardians</div>
+                <div>Boss-tier avatars of pure element.</div>
+              </div>
+              <div class="hero-chip-pill">4–6 Squad</div>
+            </div>
+
+            <div class="hero-chip chip-bottom">
+              <div>
+                <div class="hero-chip-label">Board System</div>
+                <div>Energy, Nature, Night, Tech &amp; more.</div>
+              </div>
+              <div class="hero-chip-pill">Chain Reactions</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Lore -->
+      <section id="lore">
+        <div class="section-label">World Lore</div>
+        <div class="section-header">
+          <h2 class="section-title">Eyuforyia Under Siege</h2>
+          <p class="section-subtitle">
+            The skies of Eyuforyia shimmer in eternal twilight, but the forest’s song is fading.
+            The Collectors are drilling into the world-heart, stripping the hum to power their growing machine hive. [file:1]
+          </p>
         </div>
 
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #00ced133, transparent);">
-                <img src="img/volt-04.png" alt="Zenith Volt-Titan">
+        <div class="lore-block hover-rise">
+          <div class="lore-text">
+            <div class="lore-highlight">Inciting Catastrophe</div>
+            <p>
+              Eyuforyia’s canopy once pulsed with a living frequency the Zenith call the hum—the resonance that bound root, river, and sky. [file:1]
+              The Collectors, cold alien invaders, arrived to harvest that resonance as a perfect energy source for their mechanization. [file:1]
+            </p>
+            <p>
+              Their drills puncture dimensional seams, leaving fractures of blue static where the sky “clips” and reality stutters. [file:1]
+              As the hum weakens, the forest births its last defense: mythic guardians made flesh from the planet’s own memory. [file:1]
+            </p>
+            <p>
+              You do not just protect Eyuforyia—you re-tune it, chaining matches on the board to re-ignite the hum and push the Collectors back into the void. [file:1]
+            </p>
+          </div>
+
+          <div class="lore-keywords">
+            <div class="lore-tag">
+              <div class="lore-tag-title">Ice Heart</div>
+              <p>
+                A Zenith who embraced his divine lineage, manifesting frost-armor etched with runes that pulse in sync with the forest’s heartbeat. [file:1]
+              </p>
             </div>
-            <div class="character-info">
-                <div class="element-tag tech">Tech / Electric</div>
-                <h3 class="character-name">Zenith Volt-Titan</h3>
-                <p class="character-bio">A warrior of pure electricity. Acts as the ultimate battery for the resistance.</p>
-                <div class="skill-box" style="--element-color: #00ced1;">
-                    <span class="skill-name">Ionic Storm</span>
-                    <p class="skill-desc">Increases the damage of all energy matches on the board.</p>
-                </div>
+            <div class="lore-tag">
+              <div class="lore-tag-title">Hotly</div>
+              <p>
+                A living volcano in draconic form—predator of the volcanic wastes, its rage vents through star-hot magma veins. [file:1]
+              </p>
             </div>
+            <div class="lore-tag">
+              <div class="lore-tag-title">The Collectors</div>
+              <p>
+                Alien engineers of entropy, siphoning hum into sterile reactors, leaving dead orbitals of husk-forest in their wake. [file:1]
+              </p>
+            </div>
+            <div class="lore-tag">
+              <div class="lore-tag-title">The Resistance</div>
+              <p>
+                Ice Heart, Hotly, and a growing cadre of Zenith Guardians form a last stand to reclaim the organic world from mechanized extinction. [file:1]
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Guardians -->
+      <section id="guardians">
+        <div class="section-label">Zenith Roster</div>
+        <div class="section-header">
+          <h2 class="section-title">Guardian Archetypes</h2>
+          <p class="section-subtitle">
+            Each Zenith Guardian is a boss-level entity with a clear board identity:
+            they bend rows, columns, and tiles to their will while unleashing cinematic ultimates. [file:1]
+          </p>
         </div>
 
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #ffffff33, transparent);">
-                <img src="img/ghosty-puff-04.png" alt="Zenith Storm-Cloud">
+        <div class="grid-3">
+          <!-- Ice Heart -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #00bfff33, transparent);"
+            >
+              <img src="img/wolce-04.png" alt="Zenith Frost-Howl" />
             </div>
-            <div class="character-info">
-                <div class="element-tag air">Air / Electric</div>
-                <h3 class="character-name">Zenith Storm-Cloud</h3>
-                <p class="character-bio">Its ears act as lightning rods, drawing in static to power the cause.</p>
-                <div class="skill-box" style="--element-color: #ffffff;">
-                    <span class="skill-name">Cyclonic Burst</span>
-                    <p class="skill-desc">Clears the top row and deals Air damage to all enemies.</p>
-                </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Zenith Guardian</div>
+              <div class="card-affinity ice">Frost / Spirit</div>
             </div>
+            <h3 class="card-title">Ice Heart</h3>
+            <p class="card-sub">
+              Ice Heart has fully embraced his divine lineage, manifesting frost-armor that pulses with ancient runic energy. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Summons a spirit projection of blue flame that creates a Star-Rain of damage across enemies. [file:1]
+              <div class="pill-row">
+                <span class="pill">Control</span>
+                <span class="pill">Burst Damage</span>
+                <span class="pill">Rune Scaling</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Hotly -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #ff450033, transparent);"
+            >
+              <img src="img/dragma-04.png" alt="Zenith Magma-Scale" />
+            </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Zenith Guardian</div>
+              <div class="card-affinity fire">Volcanic / Dragon</div>
+            </div>
+            <h3 class="card-title">Hotly</h3>
+            <p class="card-sub">
+              A living volcano in draconic form, the undisputed predator of the volcanic wastes. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Creates a shockwave of fire and broken rock that rips through the entire arena. [file:1]
+              <div class="pill-row">
+                <span class="pill">AoE Damage</span>
+                <span class="pill">Terrain Break</span>
+                <span class="pill">High Risk</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Storm Vanguard -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #00ced133, transparent);"
+            >
+              <img src="img/volt-04.png" alt="Zenith Volt-Titan" />
+            </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Zenith Guardian</div>
+              <div class="card-affinity.storm">Storm / Battery</div>
+            </div>
+            <h3 class="card-title">Storm Vanguard</h3>
+            <p class="card-sub">
+              A warrior of pure electricity acting as the ultimate battery for the resistance, its ears acting as lightning rods. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Passive:</strong> Increases the damage of all energy matches on the board and clears the top row with Air damage. [file:1]
+              <div class="pill-row">
+                <span class="pill">Row Clears</span>
+                <span class="pill">Energy Scaling</span>
+                <span class="pill">Team Battery</span>
+              </div>
+            </div>
+          </article>
         </div>
 
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #228b2233, transparent);">
-                <img src="img/chroom-04.png" alt="Zenith Spore-Bot">
+        <div style="height: 0.75rem;"></div>
+
+        <div class="grid-3">
+          <!-- Fungal Apex -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #228b2233, transparent);"
+            >
+              <img src="img/chroom-04.png" alt="Zenith Spore-Bot" />
             </div>
-            <div class="character-info">
-                <div class="element-tag nature">Nature</div>
-                <h3 class="character-name">Zenith Spore-Bot</h3>
-                <p class="character-bio">The absolute peak of fungal growth. It treats the world as its toxic fairy ring.</p>
-                <div class="skill-box" style="--element-color: #228b22;">
-                    <span class="skill-name">Fungal Overgrowth</span>
-                    <p class="skill-desc">Erupts exploding mushrooms that cover the field in neon spores.</p>
-                </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Zenith Guardian</div>
+              <div class="card-affinity nature">Fungal / Poison</div>
             </div>
+            <h3 class="card-title">Fungal Apex</h3>
+            <p class="card-sub">
+              The absolute peak of fungal growth, treating the world as its toxic fairy ring. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Erupts exploding mushrooms that cover the field in neon spores. [file:1]
+              <div class="pill-row">
+                <span class="pill">DoT Fields</span>
+                <span class="pill">Tile Corruption</span>
+                <span class="pill">Zone Control</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Avian Riftflare -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #4b008233, transparent);"
+            >
+              <img src="img/darkhum-04.png" alt="Zenith Shadow-Hum" />
+            </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Zenith Guardian</div>
+              <div class="card-affinity.storm">Air / Rift</div>
+            </div>
+            <h3 class="card-title">Avian Riftflare</h3>
+            <p class="card-sub">
+              A flicker in reality, an avian blur of dark light and purple lightning. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Rains down paralyzing lightning across the entire enemy team. [file:1]
+              <div class="pill-row">
+                <span class="pill">Stuns</span>
+                <span class="pill">Teamwide Pressure</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Mountain Shell -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #8b451333, transparent);"
+            >
+              <img src="img/armadilla-04.png" alt="Zenith Plate-Crawler" />
+            </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Zenith Guardian</div>
+              <div class="card-affinity nature">Earth / Bastion</div>
+            </div>
+            <h3 class="card-title">Mountain Shell</h3>
+            <p class="card-sub">
+              Its shell refracts physical force like a living mountain as three heads coordinate to shape the earth. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Boardplay:</strong> Clears rows and splits the board, swallowing the weakest enemy into the mantle. [file:1]
+              <div class="pill-row">
+                <span class="pill">Row Clears</span>
+                <span class="pill">Single-Target Delete</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Abilities / roles -->
+      <section id="abilities">
+        <div class="section-label">Ultimate Design</div>
+        <div class="section-header">
+          <h2 class="section-title">Signature Abilities</h2>
+          <p class="section-subtitle">
+            Ultimates are not just big numbers—they are board-defining events.
+            They convert tiles, silence abilities, create “Holy Ground”, or permanently cut enemy max HP. [file:1]
+          </p>
         </div>
 
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #4b008233, transparent);">
-                <img src="img/darkhum-04.png" alt="Zenith Shadow-Hum">
+        <div class="grid-2">
+          <!-- Server Dragon -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #00ced133, transparent);"
+            >
+              <img src="img/cygone.png" alt="Zenith Data-Drake" />
             </div>
-            <div class="character-info">
-                <div class="element-tag night">Night</div>
-                <h3 class="character-name">Zenith Shadow-Hum</h3>
-                <p class="character-bio">A flicker in reality. An avian blur of dark light and purple lightning.</p>
-                <div class="skill-box" style="--element-color: #4b0082;">
-                    <span class="skill-name">Thunder-Shadow Storm</span>
-                    <p class="skill-desc">Rains down paralyzing lightning across the entire enemy team.</p>
-                </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Architect</div>
+              <div class="card-affinity void">Server / Tech</div>
             </div>
+            <h3 class="card-title">Server-Dragon</h3>
+            <p class="card-sub">
+              A majestic server-dragon existing as ethereal light and wireframe geometry. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Converts terrain into nodes and silences enemy special abilities. [file:1]
+              <div class="pill-row">
+                <span class="pill">Silence</span>
+                <span class="pill">Tile Conversion</span>
+                <span class="pill">Anti-Boss</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Phantom Blade -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #1e90ff33, transparent);"
+            >
+              <img src="img/sealuny-04.png" alt="Zenith Tidal-Assassin" />
+            </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Executioner</div>
+              <div class="card-affinity ice">Water / Edge</div>
+            </div>
+            <h3 class="card-title">Phantom Blade</h3>
+            <p class="card-sub">
+              The phantom blade—pressurized water scythes that cut through tech-alloy. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Neutralizes enemies below 20% HP and heals the allied team. [file:1]
+              <div class="pill-row">
+                <span class="pill">Execute</span>
+                <span class="pill">Team Sustain</span>
+              </div>
+            </div>
+          </article>
         </div>
 
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #8b451333, transparent);">
-                <img src="img/armadilla-04.png" alt="Zenith Plate-Crawler">
+        <div style="height: 0.75rem;"></div>
+
+        <div class="grid-2">
+          <!-- Cleansing Tide -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #1e90ff33, transparent);"
+            >
+              <img src="img/welly-04.png" alt="Zenith Mist-Dancer" />
             </div>
-            <div class="character-info">
-                <div class="element-tag earth">Earth</div>
-                <h3 class="character-name">Zenith Plate-Crawler</h3>
-                <p class="character-bio">Its shell refracts physical force like a living mountain.</p>
-                <div class="skill-box" style="--element-color: #8b4513;">
-                    <span class="skill-name">Continental Roll</span>
-                    <p class="skill-desc">Clears a row and deals damage based on Earth tiles consumed.</p>
-                </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Support</div>
+              <div class="card-affinity light">Tide / Purify</div>
             </div>
+            <h3 class="card-title">Cleansing Tide</h3>
+            <p class="card-sub">
+              An avatar of the cleansing tide, its fluid form immune to physical damage. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Heals allies continuously while washing away all enemy buffs. [file:1]
+              <div class="pill-row">
+                <span class="pill">HoT</span>
+                <span class="pill">Dispel</span>
+                <span class="pill">Tank Support</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Solar Seraph -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #00bfff33, transparent);"
+            >
+              <img src="img/angeal.png" alt="Zenith Solar-Paladin" />
+            </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Vanguard</div>
+              <div class="card-affinity light">Solar / Radiance</div>
+            </div>
+            <h3 class="card-title">Solar Seraph</h3>
+            <p class="card-sub">
+              A seraph of absolute radiance, leading the charge with purifying spirit-fire. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Cleanses debuffs and burns the corrupted with divine wrath. [file:1]
+              <div class="pill-row">
+                <span class="pill">Cleanse</span>
+                <span class="pill">Holy Burn</span>
+              </div>
+            </div>
+          </article>
         </div>
 
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #8b451333, transparent);">
-                <img src="img/snone-04.png" alt="Zenith Tri-Headed Quake">
+        <div style="height: 0.75rem;"></div>
+
+        <div class="grid-2">
+          <!-- Amber Runewarden -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #8b451333, transparent);"
+            >
+              <img src="img/strogger-04.png" alt="Zenith Crystal-Brawler" />
             </div>
-            <div class="character-info">
-                <div class="element-tag earth">Earth / Fire</div>
-                <h3 class="character-name">Zenith Tri-Headed Quake</h3>
-                <p class="character-bio">Its three heads coordinate independently to shape the earth.</p>
-                <div class="skill-box" style="--element-color: #8b4513;">
-                    <span class="skill-name">Continental Divide</span>
-                    <p class="skill-desc">Splits the board, swallowing the weakest enemy into the mantle.</p>
-                </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Earth Support</div>
+              <div class="card-affinity nature">Amber / Rune</div>
             </div>
+            <h3 class="card-title">Amber Runewarden</h3>
+            <p class="card-sub">
+              Coated in amber crystals and glowing blue runes that command earthen magic. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Traps enemies in rock spikes while regenerating Earth allies. [file:1]
+              <div class="pill-row">
+                <span class="pill">Crowd Control</span>
+                <span class="pill">Regen</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Celestial Fleece -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #ffd70033, transparent);"
+            >
+              <img src="img/ramalama-04.png" alt="Zenith Solar-Aries" />
+            </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Tank</div>
+              <div class="card-affinity light">Star / Bastion</div>
+            </div>
+            <h3 class="card-title">Celestial Fleece</h3>
+            <p class="card-sub">
+              A celestial bastion of hard-light, its fleece burns with the heat of a star. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Grants invulnerability and reflects 200% of physical damage. [file:1]
+              <div class="pill-row">
+                <span class="pill">Invulnerability</span>
+                <span class="pill">Reflect</span>
+              </div>
+            </div>
+          </article>
         </div>
 
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #00ced133, transparent);">
-                <img src="img/cygone.png" alt="Zenith Data-Drake">
+        <div style="height: 0.75rem;"></div>
+
+        <div class="grid-2">
+          <!-- Eyuforyia’s Core -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #228b2233, transparent);"
+            >
+              <img src="img/aurelius-the-bloom-king-04.png" alt="Zenith Bloom-King" />
             </div>
-            <div class="character-info">
-                <div class="element-tag tech">Tech</div>
-                <h3 class="character-name">Zenith Data-Drake</h3>
-                <p class="character-bio">A majestic server-dragon existing as ethereal light and wireframe geometry.</p>
-                <div class="skill-box" style="--element-color: #00ced1;">
-                    <span class="skill-name">Gigabyte Ray</span>
-                    <p class="skill-desc">Converts terrain into nodes and silences enemy special abilities.</p>
-                </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">World Core</div>
+              <div class="card-affinity nature">Root / Sovereign</div>
             </div>
+            <h3 class="card-title">Eyuforyia’s Core</h3>
+            <p class="card-sub">
+              Ultimate sovereign of Eyuforyia’s natural forces, commanding the core itself. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Restores massive health and erupts ancient roots to clear toxins from the board. [file:1]
+              <div class="pill-row">
+                <span class="pill">Mass Heal</span>
+                <span class="pill">Board Cleanse</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Pack Revenant -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #4b008233, transparent);"
+            >
+              <img src="img/dhox-04.png" alt="Zenith Sanguine Warden" />
+            </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Pack Support</div>
+              <div class="card-affinity void">Vampiric / Pack</div>
+            </div>
+            <h3 class="card-title">Pack Revenant</h3>
+            <p class="card-sub">
+              A vampiric guardian that drains life energy to stitch pack wounds. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Rips energy from all enemies to completely heal the pack. [file:1]
+              <div class="pill-row">
+                <span class="pill">Lifesteal</span>
+                <span class="pill">Full-Team Heal</span>
+              </div>
+            </div>
+          </article>
         </div>
 
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #1e90ff33, transparent);">
-                <img src="img/sealuny-04.png" alt="Zenith Tidal-Assassin">
+        <div style="height: 0.75rem;"></div>
+
+        <div class="grid-2">
+          <!-- Avatar of Decay -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #4b008233, transparent);"
+            >
+              <img src="img/dwuid-04.png" alt="Zenith Gloom-Sage" />
             </div>
-            <div class="character-info">
-                <div class="element-tag water">Water</div>
-                <h3 class="character-name">Zenith Tidal-Assassin</h3>
-                <p class="character-bio">The phantom blade. Pressurized water scythes that cut through tech-alloy.</p>
-                <div class="skill-box" style="--element-color: #1e90ff;">
-                    <span class="skill-name">Execution Strike</span>
-                    <p class="skill-desc">Neutralizes enemies below 20% HP and heals the allied team.</p>
-                </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Debuff Core</div>
+              <div class="card-affinity void">Decay / Storm</div>
             </div>
+            <h3 class="card-title">Avatar of Decay</h3>
+            <p class="card-sub">
+              Avatar of natural decay, becoming a storm of necrotic energy that rots anything it touches. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Permanently reduces the max HP of the entire enemy team. [file:1]
+              <div class="pill-row">
+                <span class="pill">Max HP Cut</span>
+                <span class="pill">Scaling Threat</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Solar Meteor -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #ff450033, transparent);"
+            >
+              <img src="img/wolire-04.png" alt="Zenith Solar-Fang" />
+            </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Field Control</div>
+              <div class="card-affinity light">Solar / Holy</div>
+            </div>
+            <h3 class="card-title">Solar Meteor</h3>
+            <p class="card-sub">
+              Celtic sigils burn with the intensity of a star; its tail is pure solar plasma. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Descends like a meteor, creating “Holy Ground” that buffs allies. [file:1]
+              <div class="pill-row">
+                <span class="pill">Zone Buff</span>
+                <span class="pill">Aura Support</span>
+              </div>
+            </div>
+          </article>
         </div>
 
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #1e90ff33, transparent);">
-                <img src="img/welly-04.png" alt="Zenith Mist-Dancer">
+        <div style="height: 0.75rem;"></div>
+
+        <div class="grid-2">
+          <!-- Void Architect -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #4b008233, transparent);"
+            >
+              <img src="img/nyghder-04.png" alt="Zenith Shadow-Weaver" />
             </div>
-            <div class="character-info">
-                <div class="element-tag water">Water</div>
-                <h3 class="character-name">Zenith Mist-Dancer</h3>
-                <p class="character-bio">Avatar of the cleansing tide. Its fluid form is immune to physical damage.</p>
-                <div class="skill-box" style="--element-color: #1e90ff;">
-                    <span class="skill-name">Monsoon Blessing</span>
-                    <p class="skill-desc">Heals allies continuously while washing away all enemy buffs.</p>
-                </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Control</div>
+              <div class="card-affinity void">Void / Architect</div>
             </div>
+            <h3 class="card-title">Void Architect</h3>
+            <p class="card-sub">
+              An architect of the battlefield that traps dimensions with void silk. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Ultimate:</strong> Immobilizes enemies and reduces their resistances to zero. [file:1]
+              <div class="pill-row">
+                <span class="pill">Root</span>
+                <span class="pill">Defense Break</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Frost Tusks -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #00bfff33, transparent);"
+            >
+              <img src="img/frostsnout-04.png" alt="Zenith Frost-Tusk" />
+            </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Assassin</div>
+              <div class="card-affinity ice">Ice / Predator</div>
+            </div>
+            <h3 class="card-title">Frost Tusks</h3>
+            <p class="card-sub">
+              Massive ice-spike tusks infused with sub-zero energy. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Boardplay:</strong> High single-target damage with a chance to freeze neighboring enemies. [file:1]
+              <div class="pill-row">
+                <span class="pill">Single-Target</span>
+                <span class="pill">Freeze</span>
+              </div>
+            </div>
+          </article>
         </div>
 
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #00bfff33, transparent);">
-                <img src="img/angeal.png" alt="Zenith Solar-Paladin">
+        <div style="height: 0.75rem;"></div>
+
+        <div class="grid-2">
+          <!-- Earth Fox -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #8b451333, transparent);"
+            >
+              <img src="img/fox-golem-04.png" alt="Zenith Geo-Sovereign" />
             </div>
-            <div class="character-info">
-                <div class="element-tag ice">Ice</div>
-                <h3 class="character-name">Zenith Solar-Paladin</h3>
-                <p class="character-bio">A seraph of absolute radiance. Leads the charge with purifying spirit-fire.</p>
-                <div class="skill-box" style="--element-color: #ffd700;">
-                    <span class="skill-name">Sky-God's Ascension</span>
-                    <p class="skill-desc">Cleanses debuffs and burns the corrupted with divine wrath.</p>
-                </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Combo Engine</div>
+              <div class="card-affinity nature">Earth / Fox</div>
             </div>
+            <h3 class="card-title">Earth Fox</h3>
+            <p class="card-sub">
+              An earth-fox with total control over seismic activity. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Boardplay:</strong> Shuffles the board to create massive chain reactions. [file:1]
+              <div class="pill-row">
+                <span class="pill">Board Shuffle</span>
+                <span class="pill">Combo Setup</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Twin Judges / Dread-Grove -->
+          <article class="card hover-rise">
+            <div
+              class="character-img"
+              style="--element-gradient: radial-gradient(circle, #228b2233, transparent);"
+            >
+              <img src="img/night-trees-04.png" alt="Zenith Dread-Grove" />
+            </div>
+            <div class="card-header-row">
+              <div class="card-label-pill">Tech Hunters</div>
+              <div class="card-affinity nature">Nature / Night</div>
+            </div>
+            <h3 class="card-title">Twin Judges</h3>
+            <p class="card-sub">
+              Twin judges that hunt those who bring tech into green spaces. [file:1]
+            </p>
+            <div class="card-meta">
+              <strong>Boardplay:</strong> Turns all matching Nature tiles into poisonous Night tiles. [file:1]
+              <div class="pill-row">
+                <span class="pill">Tile Mutation</span>
+                <span class="pill">Poison Scaling</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Boardplay / system -->
+      <section id="boardplay">
+        <div class="section-label">Core System</div>
+        <div class="section-header">
+          <h2 class="section-title">Match-3 As Warfare</h2>
+          <p class="section-subtitle">
+            Every tile on the board is a fragment of Eyuforyia’s hum.
+            Your matches don’t just trigger skills—they physically rewrite terrain, status, and even enemy maximum health. [file:1]
+          </p>
         </div>
 
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #8b451333, transparent);">
-                <img src="img/strogger-04.png" alt="Zenith Crystal-Brawler">
+        <div class="feature-row hover-rise">
+          <div>
+            <div class="feature-tag">Combat Loop</div>
+            <div class="feature-title">Chain, Charge, Detonate</div>
+            <p class="feature-body">
+              Match elemental tiles to charge Zenith ultimates, then unleash them to clear rows, convert nodes, and carve out safe “Holy Ground” on an increasingly hostile board. [file:1]
+              Guardians like Earth Fox reshuffle dead boards into combo scenarios, while Void Architect locks bosses in place for devastating follow-ups. [file:1]
+            </p>
+          </div>
+          <div>
+            <div class="feature-tag">Design Notes</div>
+            <p class="feature-body">
+              The goal is to keep every move expressive: even a “bad” match should progress charge, advance status, or manipulate the board towards your next power turn. [file:1]
+            </p>
+            <div class="statline">
+              <span><strong>Tiles:</strong> Energy, Nature, Night, Tech, Holy, Void</span>
+              <span><strong>Threat:</strong> Corruption growth, Collector drills</span>
+              <span><strong>Fantasy:</strong> “You reroute a dying planet.”</span>
             </div>
-            <div class="character-info">
-                <div class="element-tag earth">Earth / Nature</div>
-                <h3 class="character-name">Zenith Crystal-Brawler</h3>
-                <p class="character-bio">Coated in amber crystals and glowing blue runes that command earthen magic.</p>
-                <div class="skill-box" style="--element-color: #8b4513;">
-                    <span class="skill-name">World-Breaker Slam</span>
-                    <p class="skill-desc">Traps enemies in rock spikes while regenerating Earth allies.</p>
-                </div>
-            </div>
+          </div>
         </div>
+      </section>
+    </main>
 
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #ffd70033, transparent);">
-                <img src="img/ramalama-04.png" alt="Zenith Solar-Aries">
-            </div>
-            <div class="character-info">
-                <div class="element-tag light">Light</div>
-                <h3 class="character-name">Zenith Solar-Aries</h3>
-                <p class="character-bio">A celestial bastion of hard-light. Its fleece burns with the heat of a star.</p>
-                <div class="skill-box" style="--element-color: #ffd700;">
-                    <span class="skill-name">Aegis of the Dawn</span>
-                    <p class="skill-desc">Grants invulnerability and reflects 200% of physical damage.</p>
-                </div>
-            </div>
+    <footer>
+      <div class="row">
+        <div>Eyuforyia · Internal Zenith Guardian Codex</div>
+        <div>
+          Built as a living pitch. Drop into
+          <a href="#top">top</a>
+          and iterate.
         </div>
-
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #228b2233, transparent);">
-                <img src="img/aurelius-the-bloom-king-04.png" alt="Zenith Bloom-King">
-            </div>
-            <div class="character-info">
-                <div class="element-tag nature">Nature / Earth</div>
-                <h3 class="character-name">Zenith Bloom-King</h3>
-                <p class="character-bio">Ultimate sovereign of Eyuforyia's natural forces, commanding the core.</p>
-                <div class="skill-box" style="--element-color: #228b22;">
-                    <span class="skill-name">Gaea’s Blessing</span>
-                    <p class="skill-desc">Restores massive health and erupts ancient roots to clear toxins.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #4b008233, transparent);">
-                <img src="img/dhox-04.png" alt="Zenith Sanguine Warden">
-            </div>
-            <div class="character-info">
-                <div class="element-tag night">Night</div>
-                <h3 class="character-name">Zenith Sanguine Warden</h3>
-                <p class="character-bio">A vampiric guardian that drains life energy to stitch pack wounds.</p>
-                <div class="skill-box" style="--element-color: #4b0082;">
-                    <span class="skill-name">Blood Moon Siphon</span>
-                    <p class="skill-desc">Rips energy from all enemies to completely heal the pack.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #4b008233, transparent);">
-                <img src="img/dwuid-04.png" alt="Zenith Gloom-Sage">
-            </div>
-            <div class="character-info">
-                <div class="element-tag night">Night / Nature</div>
-                <h3 class="character-name">Zenith Gloom-Sage</h3>
-                <p class="character-bio">Avatar of natural decay. Becomes a storm of necrotic energy.</p>
-                <div class="skill-box" style="--element-color: #4b0082;">
-                    <span class="skill-name">Eradication Bloom</span>
-                    <p class="skill-desc">Permanently reduces the max HP of the entire enemy team.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #ff450033, transparent);">
-                <img src="img/wolire-04.png" alt="Zenith Solar-Fang">
-            </div>
-            <div class="character-info">
-                <div class="element-tag fire">Fire</div>
-                <h3 class="character-name">Zenith Solar-Fang</h3>
-                <p class="character-bio">Celtic sigils burn with the intensity of a star. Tail is pure solar plasma.</p>
-                <div class="skill-box" style="--element-color: #ff4500;">
-                    <span class="skill-name">Radiant Pounce</span>
-                    <p class="skill-desc">Descends like a meteor, creating 'Holy Ground' that buffs allies.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #4b008233, transparent);">
-                <img src="img/nyghder-04.png" alt="Zenith Shadow-Weaver">
-            </div>
-            <div class="character-info">
-                <div class="element-tag night">Night</div>
-                <h3 class="character-name">Zenith Shadow-Weaver</h3>
-                <p class="character-bio">An architect of the battlefield that traps dimensions with void silk.</p>
-                <div class="skill-box" style="--element-color: #4b0082;">
-                    <span class="skill-name">Abyssal Snare</span>
-                    <p class="skill-desc">Immobilizes enemies and reduces their resistances to zero.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #00bfff33, transparent);">
-                <img src="img/frostsnout-04.png" alt="Zenith Frost-Tusk">
-            </div>
-            <div class="character-info">
-                <div class="element-tag ice">Ice</div>
-                <h3 class="character-name">Zenith Frost-Tusk</h3>
-                <p class="character-bio">Massive ice-spike tusks infused with sub-zero energy.</p>
-                <div class="skill-box" style="--element-color: #00bfff;">
-                    <span class="skill-name">Shatter-Lance</span>
-                    <p class="skill-desc">High single-target damage with a chance to freeze neighbors.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #8b451333, transparent);">
-                <img src="img/fox-golem-04.png" alt="Zenith Geo-Sovereign">
-            </div>
-            <div class="character-info">
-                <div class="element-tag earth">Earth</div>
-                <h3 class="character-name">Zenith Geo-Sovereign</h3>
-                <p class="character-bio">An earth-fox with total control over seismic activity.</p>
-                <div class="skill-box" style="--element-color: #8b4513;">
-                    <span class="skill-name">Quake-Step</span>
-                    <p class="skill-desc">Shuffles the board to create massive chain reactions.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="character-card">
-            <div class="character-img" style="--element-gradient: radial-gradient(circle, #228b2233, transparent);">
-                <img src="img/night-trees-04.png" alt="Zenith Dread-Grove">
-            </div>
-            <div class="character-info">
-                <div class="element-tag nature">Night / Nature</div>
-                <h3 class="character-name">Zenith Dread-Grove</h3>
-                <p class="character-bio">Twin judges that hunt those who bring tech into green spaces.</p>
-                <div class="skill-box" style="--element-color: #228b22;">
-                    <span class="skill-name">Floral Decay</span>
-                    <p class="skill-desc">Turns all matching Nature tiles into poisonous Night tiles.</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<footer>
-    <p>&copy; 2026 Quetiemals Development Team. All designs property of Teq Vault LLC.</p>
-</footer>
-
+      </div>
+    </footer>
+  </div>
 </body>
 </html>
