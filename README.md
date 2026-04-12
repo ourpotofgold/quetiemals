@@ -1,2 +1,2 @@
 # quetiemals
-The full roster of Eyuforyia's diverse inhabitants
+The full roster of the beautiful land of Eyuforyia's diverse inhabitants
