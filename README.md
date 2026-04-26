@@ -1,6 +1,7 @@
 # Quetiemals: The Fight For Eyuforyia 🐾🧩
 
 [![Get it on Google Play](https://img.shields.io/badge/Google_Play-Available-success?logo=google-play)](https://play.google.com/store/apps/details?id=com.teqvault.quetiemals)
+[![Watch the Trailer](https://img.shields.io/badge/YouTube-Watch_Trailer-FF0000?logo=youtube)](https://www.youtube.com/watch?v=ECYZ2HyvJaI&list=PLQOuY8C0Qg36U8garEJmC-OcfZu-geI_J)
 [![Discord](https://img.shields.io/badge/Discord-Join_Community-7289DA?logo=discord)](https://discord.gg/4CAYz2ZCqC)
 [![Website](https://img.shields.io/badge/Website-Quetiemals.online-blue)](https://quetiemals.online)
 
@@ -45,6 +46,7 @@ Quetiemals fights get crowded fast. You can bring **up to five companions** into
 * [Teq Vault Facebook](https://www.facebook.com/profile.php?id=61577353297986)
 * [Eyuforyia Facebook](https://www.facebook.com/profile.php?id=61587538385294)
 * [Official Discord](https://discord.gg/4CAYz2ZCqC)
+* [Official YouTube Trailer](https://www.youtube.com/watch?v=ECYZ2HyvJaI&list=PLQOuY8C0Qg36U8garEJmC-OcfZu-geI_J)
 
 **Support:**
 * Email: [support@teqvault.online](mailto:support@teqvault.online)
